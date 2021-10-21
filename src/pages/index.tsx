@@ -1,11 +1,17 @@
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Home() {
   const { register, handleSubmit } = useForm();
+  const { signIn } = useContext(AuthContext);
 
-  const handleSignIn = () => {};
+  const handleSignIn = async ({ email, password }) => {
+    console.log({ email, password });
+    await signIn({ email, password });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -24,7 +30,7 @@ export default function Home() {
             Sign in to your account
           </h2>
         </div>
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(handleSignIn)}>
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -89,7 +95,6 @@ export default function Home() {
           <div>
             <button
               type="submit"
-              onSubmit={handleSubmit(handleSignIn)}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
